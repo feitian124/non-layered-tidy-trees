@@ -137,14 +137,12 @@ public class TreeElement extends Composite implements SelectionListener, PaintLi
 		return (int)(b+0.5);
 	}
 
-	@Override
 	public void widgetSelected(SelectionEvent e) {
 		xOffset = getHorizontalBar().getSelection() ;
 		yOffset = getVerticalBar().getSelection() ;
 		redraw();
 	}
 
-	@Override
 	public void widgetDefaultSelected(SelectionEvent e) {
 	}
 
@@ -178,7 +176,6 @@ public class TreeElement extends Composite implements SelectionListener, PaintLi
 	}
 
 
-	@Override
 	public void paintControl(PaintEvent e) {
 		e.gc.setAdvanced(true);
 		Rectangle r = getClientArea();
@@ -190,18 +187,15 @@ public class TreeElement extends Composite implements SelectionListener, PaintLi
 
 	}
 
-	@Override
 	public void controlMoved(ControlEvent e) {
 	}
 
-	@Override
 	public void controlResized(ControlEvent e) {
 		setScrollBars();
 	}
 
 
 
-	@Override
 	public void handleEvent(Event event) {
 		Rectangle r = getClientArea();
 
@@ -224,7 +218,6 @@ public class TreeElement extends Composite implements SelectionListener, PaintLi
 		}
 	}
 
-	@Override
 	public void keyPressed(KeyEvent e) {
 		if(e.keyCode == 'z'){
 			reinit();
@@ -238,7 +231,6 @@ public class TreeElement extends Composite implements SelectionListener, PaintLi
 		redraw();
 	}
 
-	@Override
 	public void keyReleased(KeyEvent e) {
 
 	}

@@ -3,7 +3,7 @@ package club.topcoder.treelayout.algorithm;
 
 
 import club.topcoder.treelayout.TreeNode;
-import treelayout.algorithm.Paper.Tree;
+import club.topcoder.treelayout.algorithm.Paper.Tree;
 
 public class Marshall{
 
