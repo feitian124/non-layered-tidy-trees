@@ -1,4 +1,4 @@
-package treelayout;
+package club.topcoder.treelayout;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -14,20 +14,20 @@ public final class TreeNode {
 	public double hgap, vgap;
 	// output
 	public double x,y;
-	
+
 	public TreeNode(double width, double height, TreeNode ... children){
 		this.width = width;
 		this.height = height;
 		this.children = new Vector<TreeNode>();
 		this.children.addAll(Arrays.asList(children));
 	}
-	
+
 	public BoundingBox getBoundingBox(){
 		BoundingBox result = new BoundingBox(0, 0);
 		getBoundingBox(this,result);
 		return result;
 	}
-	
+
 	private static void getBoundingBox(TreeNode tree,BoundingBox b) {
 		b.width = Math.max(b.width,tree.x + tree.width);
 		b.height = Math.max(b.height,tree.y + tree.height);
@@ -35,19 +35,19 @@ public final class TreeNode {
 			getBoundingBox(child, b);
 		}
 	}
-	
+
 	public void moveRight(double move){
 		x += move;
 		for(TreeNode child : children){
 			child.moveRight(move);
 		}
 	}
-	
+
 	public void normalizeX(){
 		double minX = getMinX();
 		moveRight(-minX);
 	}
-	
+
 	public double getMinX(){
 		double res = x;
 		for(TreeNode child : children){
@@ -55,7 +55,7 @@ public final class TreeNode {
 		}
 		return res;
 	}
-	
+
 	public int size(){
 		int res = 1;
 		for(TreeNode node : children){
@@ -63,31 +63,31 @@ public final class TreeNode {
 		}
 		return res;
 	}
-	
+
 	public boolean hasChildren(){
 		return children.size() > 0;
 	}
-	
+
 	final static double tolerance = 0.0;
-	
+
 	private boolean overlap(double xStart, double xEnd, double xStart2, double xEnd2){
 		return (xStart2 + tolerance < xEnd - tolerance  && xEnd2 - tolerance > xStart + tolerance) ||
 				 (xStart + tolerance < xEnd2 - tolerance && xEnd - tolerance > xStart2 + tolerance);
 	}
-	
+
 	public boolean overlapsWith(TreeNode other){
 		return overlap(x, x + width, other.x , other.x + other.width)
 				&& overlap(y, y + height, other.y, other.y + other.height);
-		
+
 	}
-	
+
 	public void allNodes(ArrayList<TreeNode> nodes) {
 		nodes.add(this);
 		for(TreeNode node : children){
 			node.allNodes(nodes);
 		}
 	}
-	
+
 	public int getDepth(){
 		int res = 1;
 		for(TreeNode child : children){
@@ -95,7 +95,7 @@ public final class TreeNode {
 		}
 		return res;
 	}
-	
+
 	public void addGap(double hgap,double vgap){
 		this.hgap += hgap;
 		this.vgap += vgap;
@@ -105,7 +105,7 @@ public final class TreeNode {
 			child.addGap(hgap,vgap);
 		}
 	}
-	
+
 	public void addSize(double hsize,double vsize){
 		this.width+=hsize;
 		this.height+=vsize;
@@ -113,7 +113,7 @@ public final class TreeNode {
 			child.addSize(hsize,vsize);
 		}
 	}
-	
+
 	public void addGapPerDepth(int gapPerDepth, int depth,int maxDepth){
 		this.hgap += (maxDepth-depth)*gapPerDepth;
 		this.width+=2* (maxDepth-depth)*gapPerDepth;
@@ -121,7 +121,7 @@ public final class TreeNode {
 			child.addGapPerDepth(gapPerDepth,depth+1,maxDepth);
 		}
 	}
-	
+
 	public void print(){
 		System.out.printf("new TreeNode(%f,%f %f,%f ",x,y,width,height);
 		for(TreeNode child : children){
@@ -129,12 +129,12 @@ public final class TreeNode {
 			child.print();
 		}
 		System.out.printf(")");
-		
+
 	}
 	/*
 	public void tikzPrint(){
 		System.out.printf("\\draw (%f,%f) rectangle (%f,%f);\n",x+hgap/2.0,-y-vgap/2.0,x+width-hgap/2.0, -y - height+vgap/2.0);
-		
+
 		double yMid = -y - height ;
 		if(children.length != 0){
 			double l = children[0].x + children[0].width/2.0;
@@ -152,7 +152,7 @@ public final class TreeNode {
 			child.tikzPrint();
 		}
 	}
-	
+
 	public void tikzDashed(){
 		System.out.printf("\\draw[style=dashed,color=gray] (%f,%f) -- (%f,%f);\n",x, -y,x,-y -height);
 		for(TreeNode child : children){
@@ -165,10 +165,10 @@ public final class TreeNode {
 		} else {
 			System.out.printf("\\draw[style=dashed,color=gray] (%f,%f) -- (%f,%f);\n",x, -y - height,x + width, -y - height);
 		}
-		
+
 	}
 	*/
-	
+
 	public void mul(double w, double h){
 		width *= w;
 		height *= h;
@@ -176,11 +176,11 @@ public final class TreeNode {
 			child.mul(w, h);
 		}
 	}
-	
+
 	public void layer() {
 		layer(0);
 	}
-	
+
 	public void layer(double d){
 		y = d;
 		d+=height;
@@ -188,7 +188,7 @@ public final class TreeNode {
 			child.layer(d);
 		}
 	}
-	
+
 	public void randExpand( TreeNode t,Random r){
 		t.y+=height;
 		int i = r.nextInt(children.size() + 1);
@@ -198,7 +198,7 @@ public final class TreeNode {
 			children.get(i).randExpand( t, r);
 		}
 	}
-	
+
 	public void addKid(TreeNode t){
 		children.add(t);
 	}

@@ -1,4 +1,4 @@
-package treelayout.swt;
+package club.topcoder.treelayout.swt;
 import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.Random;
@@ -21,10 +21,10 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 
 
-import treelayout.BoundingBox;
-import treelayout.GenerateTrees;
-import treelayout.TreeNode;
-import treelayout.algorithm.Marshall;
+import club.topcoder.treelayout.BoundingBox;
+import club.topcoder.treelayout.GenerateTrees;
+import club.topcoder.treelayout.TreeNode;
+import club.topcoder.treelayout.algorithm.Marshall;
 
 
 
@@ -38,16 +38,16 @@ public class TreeElement extends Composite implements SelectionListener, PaintLi
 	GenerateTrees gen;
 	Marshall m;
 	Random rand;
-	
+
 	public static int SEED = 42;
-	
+
 	public TreeElement(Composite parent) {
 		super(parent, SWT.H_SCROLL | SWT.V_SCROLL);
 		addPaintListener(this);
 		getHorizontalBar().addSelectionListener(this);
 		getVerticalBar().addSelectionListener(this);
 
-		addControlListener(this);	
+		addControlListener(this);
 		addKeyListener(this);
 		addListener(SWT.MouseVerticalWheel, this);
 		gen = new GenerateTrees(50, 10, 100, 10, 100, (int)Math.random() * 1000);
@@ -55,8 +55,8 @@ public class TreeElement extends Composite implements SelectionListener, PaintLi
 		rand = new Random();
 		reinit();
 	}
-	
-	
+
+
 	public void reinit(){
 //		tree = new TreeNode(10, 10, new TreeNode(10,10,new TreeNode(10,10,new TreeNode(10,10),new TreeNode(10,10))), new TreeNode(10,10,new TreeNode(10,10), new TreeNode(10,10,new TreeNode(10,10))));
 
@@ -67,7 +67,7 @@ public class TreeElement extends Composite implements SelectionListener, PaintLi
 		//}while(!overlap());
 	}
 
-	
+
 	public boolean overlap(){
 		ArrayList<TreeNode> nodes = new ArrayList<TreeNode>();
 		tree.allNodes(nodes);
@@ -83,8 +83,8 @@ public class TreeElement extends Composite implements SelectionListener, PaintLi
 
 	}
 
-	
-	
+
+
 	public void doLayout() {
 		System.out.printf("Starting layout... \n");
 		long start = System.currentTimeMillis();
@@ -128,28 +128,28 @@ public class TreeElement extends Composite implements SelectionListener, PaintLi
 		} else {
 			getVerticalBar().setVisible(false);
 		}
-		
-	}
-	
 
-	
+	}
+
+
+
 	static int roundInt(double b){
 		return (int)(b+0.5);
 	}
-	
+
 	@Override
 	public void widgetSelected(SelectionEvent e) {
 		xOffset = getHorizontalBar().getSelection() ;
 		yOffset = getVerticalBar().getSelection() ;
 		redraw();
 	}
-	
+
 	@Override
-	public void widgetDefaultSelected(SelectionEvent e) {	
+	public void widgetDefaultSelected(SelectionEvent e) {
 	}
 
 
-	
+
 	void paintTree(TreeNode root, GC gc,Rectangle r){
 		Color c = new Color(gc.getDevice(), new RGB((int)((rand.nextDouble() * 150) ), (int)((rand.nextDouble() * 150)), (int)((rand.nextDouble() * 150) )));
 		gc.setBackground(c);
@@ -160,7 +160,7 @@ public class TreeElement extends Composite implements SelectionListener, PaintLi
 		if(root.children.size() > 0){
 			double endYRoot =  root.y + root.height -root.vgap/2 ;
 			double rootMiddle = root.x + root.width/2.0;
-			
+
 			double middleY = endYRoot + root.vgap/2;
 			gc.drawLine(roundInt(zoom *(rootMiddle-xOffset)), roundInt(zoom *( endYRoot -yOffset)), roundInt(zoom * (rootMiddle-xOffset)),roundInt(zoom * (middleY -yOffset)) );
 			TreeNode firstKid = root.children.get(0);
@@ -176,7 +176,7 @@ public class TreeElement extends Composite implements SelectionListener, PaintLi
 			}
 		}
 	}
-	
+
 
 	@Override
 	public void paintControl(PaintEvent e) {
@@ -187,7 +187,7 @@ public class TreeElement extends Composite implements SelectionListener, PaintLi
 		e.gc.setForeground(getDisplay().getSystemColor(SWT.COLOR_BLACK));
 		rand = new Random(SEED);
 		paintTree(tree, e.gc, r);
-	
+
 	}
 
 	@Override
@@ -204,7 +204,7 @@ public class TreeElement extends Composite implements SelectionListener, PaintLi
 	@Override
 	public void handleEvent(Event event) {
 		Rectangle r = getClientArea();
-		
+
 		if((event.stateMask & SWT.CONTROL) != 0){
 			event.doit= false;
 			double locX = xOffset + event.x / zoom;
@@ -219,7 +219,7 @@ public class TreeElement extends Composite implements SelectionListener, PaintLi
 			getHorizontalBar().setSelection((int)xOffset);
 			getVerticalBar().setSelection((int)yOffset);
 			setScrollBars();
-			
+
 			redraw();
 		}
 	}
@@ -233,14 +233,14 @@ public class TreeElement extends Composite implements SelectionListener, PaintLi
 		} else if(e.keyCode == 'p'){
 			tree.print();
 			System.out.printf("\n");
-		} 
+		}
 		setScrollBars();
 		redraw();
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		
+
 	}
 
 

@@ -1,4 +1,4 @@
-package treelayout.swt;
+package club.topcoder.treelayout.swt;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
@@ -17,7 +17,7 @@ public class TestInterface extends Composite{
 		a = new TreeElement(this);
 //		b = new BoxesElement(this, boxesB);
 	}
-	
+
 
 	public static void main(String argv[]){
 		final Display display = new Display ();
