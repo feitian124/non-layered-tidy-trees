@@ -9,7 +9,7 @@ package club.topcoder.treelayout.algorithm;
  */
 
 public class Paper {
-	public static class Tree {
+		public static class Tree {
 		   double w, h;          // ^{\normalfont Width and height.}^
 		   double x, y, prelim, mod, shift, change;
 		   Tree tl, tr;          // ^{\normalfont Left and right thread.}^
@@ -22,13 +22,22 @@ public class Paper {
 		      this.cs = c.length;
 		   }
 		 }
-		static void layout(Tree t){ firstWalk(t); secondWalk(t,0); }
+
+		static void layout(Tree t){
+			firstWalk(t);
+			secondWalk(t,0);
+		}
 
 		static  void firstWalk(Tree t){
-		  if(t.cs == 0){ setExtremes(t); return; }
+		  if(t.cs == 0){
+		  	setExtremes(t);
+		  	return;
+		  }
+
 		  firstWalk(t.c[0]);
 		  // ^{\normalfont Create siblings in contour minimal vertical coordinate and index list.}^
 		  IYL ih =  updateIYL(bottom(t.c[0].el),0,null);
+
 		  for(int i = 1; i < t.cs; i++){
 		     firstWalk(t.c[i]);
 		     //^{\normalfont Store lowest vertical coordinate while extreme nodes still point in current subtree.}^
@@ -56,7 +65,10 @@ public class Paper {
 		   // ^{\normalfont Left contour node of current subtree and its sum of modfiers.}^
 		   Tree cl = t.c[i]  ; double mscl = cl.mod;
 		   while(sr != null && cl != null){
-		      if(bottom(sr) > ih.lowY) ih = ih.nxt;
+		      if(bottom(sr) > ih.lowY) {
+		      	// TODO
+		      	ih = ih.nxt;
+		      }
 		      // ^{\normalfont How far to the left of the right side of sr is the left side of cl?}^
 		      double dist = (mssr + sr.prelim + sr.w) - (mscl + cl.prelim);
 		      if(dist > 0){
@@ -147,11 +159,15 @@ public class Paper {
 		   }
 		}
 
-		 // ^{\normalfont A linked list of the indexes of left siblings and their lowest vertical coordinate.}^
+		 // A linked list of the indexes of left siblings and their lowest vertical coordinate.
 		static class IYL{
-		   double lowY; int index; IYL nxt;
+		   double lowY;
+		   int index;
+		   IYL nxt;
 		   public IYL(double lowY, int index, IYL nxt) {
-		        this.lowY = lowY; this.index = index; this.nxt = nxt;
+		        this.lowY = lowY;
+		        this.index = index;
+		        this.nxt = nxt;
 		   }
 		 }
 
