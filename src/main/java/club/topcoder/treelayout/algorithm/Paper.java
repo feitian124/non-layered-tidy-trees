@@ -10,13 +10,13 @@ package club.topcoder.treelayout.algorithm;
 
 public class Paper {
     public static class Tree {
-        double w, h;          // ^{\normalfont Width and height.}^
+        double w, h;          // Width and height.
         double x, y, prelim, mod, shift, change;
-        Tree tl, tr;          // ^{\normalfont Left and right thread.}^
-        Tree el, er;          // ^{\normalfont Extreme left and right nodes.}^
-        double msel, mser;    // ^{\normalfont Sum of modifiers at the extreme nodes.}^
+        Tree tl, tr;          // Left and right thread.
+        Tree el, er;          // Extreme left and right nodes.
+        double msel, mser;    // Sum of modifiers at the extreme nodes.
         Tree[] c;
-        int cs;     // ^{\normalfont Array of children and number of children.}^
+        int cs;     // Array of children and number of children.
 
         Tree(double w, double h, double y, Tree... c) {
             this.w = w;
@@ -32,7 +32,13 @@ public class Paper {
         secondWalk(t, 0);
     }
 
-    static void firstWalk(Tree t) {
+	/**
+	 * foreach Each child of root do
+	 * 		Layout(child);
+	 * 		Separate((left siblings,child)) ;
+	 * 	Set position of root;
+	 */
+	static void firstWalk(Tree t) {
         if (t.cs == 0) {
             setExtremes(t);
             return;
@@ -66,44 +72,46 @@ public class Paper {
         }
     }
 
+	/**
+	 * current subtree is moved to the right such that it does not overlap with its left siblings.
+	 */
     static void seperate(Tree t, int i, IYL ih) {
-        // ^{\normalfont Right contour node of left siblings and its sum of modfiers.}^
-        Tree sr = t.c[i - 1];
-        double mssr = sr.mod;
-        // ^{\normalfont Left contour node of current subtree and its sum of modfiers.}^
-        Tree cl = t.c[i];
-        double mscl = cl.mod;
-        while (sr != null && cl != null) {
-            if (bottom(sr) > ih.lowY) {
-                // TODO
+        // Right contour node of left siblings and its sum of modfiers
+        Tree left = t.c[i - 1];
+        double leftMod = left.mod;
+        // Left contour node of current subtree and its sum of modfiers
+        Tree right = t.c[i];
+        double rightMod = right.mod;
+        while (left != null && right != null) {
+            if (bottom(left) > ih.lowY) {
                 ih = ih.nxt;
             }
-            // ^{\normalfont How far to the left of the right side of sr is the left side of cl?}^
-            double dist = (mssr + sr.prelim + sr.w) - (mscl + cl.prelim);
+            // How far to the left of the right side of left is the left side of current?
+            double dist = (leftMod + left.prelim + left.w) - (rightMod + right.prelim);
             if (dist > 0) {
-                mscl += dist;
+                rightMod += dist;
                 moveSubtree(t, i, ih.index, dist);
             }
-            double sy = bottom(sr), cy = bottom(cl);
-            // ^{\normalfont Advance highest node(s) and sum(s) of modifiers}^
-            if (sy <= cy) {
-                sr = nextRightContour(sr);
-                if (sr != null) mssr += sr.mod;
+            double leftY = bottom(left), rightY = bottom(right);
+            // Advance highest node(s) and sum(s) of modifiers
+            if (leftY <= rightY) {
+                left = nextRightContour(left);
+                if (left != null) leftMod += left.mod;
             }
-            if (sy >= cy) {
-                cl = nextLeftContour(cl);
-                if (cl != null) mscl += cl.mod;
+            if (leftY >= rightY) {
+                right = nextLeftContour(right);
+                if (right != null) rightMod += right.mod;
             }
         }
-        // ^{\normalfont Set threads and update extreme nodes.}^
-        // ^{\normalfont In the first case, the current subtree must be taller than the left siblings.}^
-        if (sr == null && cl != null) setLeftThread(t, i, cl, mscl);
-            // ^{\normalfont In this case, the left siblings must be taller than the current subtree.}^
-        else if (sr != null && cl == null) setRightThread(t, i, sr, mssr);
+        // Set threads and update extreme nodes.
+        // In the first case, the current subtree must be taller than the left siblings.
+        if (left == null && right != null) setLeftThread(t, i, right, rightMod);
+            // In this case, the left siblings must be taller than the current subtree.
+        else if (left != null && right == null) setRightThread(t, i, left, leftMod);
     }
 
     static void moveSubtree(Tree t, int i, int si, double dist) {
-        // ^{\normalfont Move subtree by changing mod.}^
+        // Move subtree by changing mod.
         t.c[i].mod += dist;
         t.c[i].msel += dist;
         t.c[i].mser += dist;
@@ -125,17 +133,17 @@ public class Paper {
     static void setLeftThread(Tree t, int i, Tree cl, double modsumcl) {
         Tree li = t.c[0].el;
         li.tl = cl;
-        // ^{\normalfont Change mod so that the sum of modifier after following thread is correct.}^
+        // Change mod so that the sum of modifier after following thread is correct.
         double diff = (modsumcl - cl.mod) - t.c[0].msel;
         li.mod += diff;
-        // ^{\normalfont Change preliminary x coordinate so that the node does not move.}^
+        // Change preliminary x coordinate so that the node does not move.
         li.prelim -= diff;
-        // ^{\normalfont Update extreme node and its sum of modifiers.}^
+        // Update extreme node and its sum of modifiers.
         t.c[0].el = t.c[i].el;
         t.c[0].msel = t.c[i].msel;
     }
 
-    // ^{\normalfont Symmetrical to setLeftThread.}^
+    // Symmetrical to setLeftThread.
     static void setRightThread(Tree t, int i, Tree sr, double modsumsr) {
         Tree ri = t.c[i].er;
         ri.tr = sr;
@@ -147,21 +155,21 @@ public class Paper {
     }
 
     static void positionRoot(Tree t) {
-        // ^{\normalfont Position root between children, taking into account their mod.}^
+        // Position root between children, taking into account their mod.
         t.prelim = (t.c[0].prelim + t.c[0].mod + t.c[t.cs - 1].mod +
                 t.c[t.cs - 1].prelim + t.c[t.cs - 1].w) / 2 - t.w / 2;
     }
 
     static void secondWalk(Tree t, double modsum) {
         modsum += t.mod;
-        // ^{\normalfont Set absolute (non-relative) horizontal coordinate.}^
+        // Set absolute (non-relative) horizontal coordinate.
         t.x = t.prelim + modsum;
         addChildSpacing(t);
         for (int i = 0; i < t.cs; i++) secondWalk(t.c[i], modsum);
     }
 
     static void distributeExtra(Tree t, int i, int si, double dist) {
-        // ^{\normalfont Are there intermediate children?}^
+        // Are there intermediate children?
         if (si != i - 1) {
             double nr = i - si;
             t.c[si + 1].shift += dist / nr;
@@ -170,7 +178,7 @@ public class Paper {
         }
     }
 
-    // ^{\normalfont Process change and shift to add intermediate spacing to mod.}^
+    // Process change and shift to add intermediate spacing to mod.
     static void addChildSpacing(Tree t) {
         double d = 0, modsumdelta = 0;
         for (int i = 0; i < t.cs; i++) {
