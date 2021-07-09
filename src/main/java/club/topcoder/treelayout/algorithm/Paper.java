@@ -39,13 +39,13 @@ public class Paper {
         }
 
         firstWalk(t.c[0]);
-        // ^{\normalfont Create siblings in contour minimal vertical coordinate and index list.}^
-        IYL ih = updateIYL(bottom(t.c[0].el), 0, null);
+		double minY = bottom(t.c[0].er);
+        IYL ih = updateIYL(minY, 0, null);
 
         for (int i = 1; i < t.cs; i++) {
             firstWalk(t.c[i]);
-            //^{\normalfont Store lowest vertical coordinate while extreme nodes still point in current subtree.}^
-            double minY = bottom(t.c[i].er);
+            // Store lowest vertical coordinate while extreme nodes still point in current subtree
+            minY = bottom(t.c[i].er);
             seperate(t, i, ih);
             ih = updateIYL(minY, i, ih);
         }
