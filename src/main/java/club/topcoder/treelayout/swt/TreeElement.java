@@ -2,6 +2,7 @@ package club.topcoder.treelayout.swt;
 import java.util.ArrayList;
 import java.util.Random;
 
+import club.topcoder.treelayout.algorithm.Tree;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.events.ControlListener;
@@ -60,7 +61,7 @@ public class TreeElement extends Composite implements SelectionListener, PaintLi
 		System.out.printf("Starting layout... \n");
 		long start = System.currentTimeMillis();
 		tree.layer();
-		Object converted = m.convert(tree);
+		Tree converted = m.convert(tree);
 		m.runOnConverted(converted);
 		long now = System.currentTimeMillis();
 		long dur = now - start;

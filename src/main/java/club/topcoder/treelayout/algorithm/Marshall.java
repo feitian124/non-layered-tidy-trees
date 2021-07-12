@@ -3,24 +3,24 @@ package club.topcoder.treelayout.algorithm;
 import club.topcoder.treelayout.TreeNode;
 
 public class Marshall{
-	public Object convert(TreeNode root) {
+	public Tree convert(TreeNode root) {
 		if(root == null) return null;
 		Tree[] children = new Tree[root.children.size()];
 		for(int i = 0 ; i < children.length ; i++){
-			children[i] = (Tree)convert(root.children.get(i));
+			children[i] = convert(root.children.get(i));
 		}
 		return new Tree(root.width,root.height,root.y, children);
 	}
 
-	public void convertBack(Object converted, TreeNode root) {
-		Tree conv = (Tree)converted;
+	public void convertBack(Tree converted, TreeNode root) {
+		Tree conv = converted;
 		root.x = conv.x;
 		for(int i = 0 ; i < conv.c.length ; i++){
 			convertBack(conv.c[i], root.children.get(i));
 		}
 	}
 
-	public void runOnConverted(Object root) {
-		Paper.layout((Tree)root);
+	public void runOnConverted(Tree root) {
+		Paper.layout(root);
 	}
 }
