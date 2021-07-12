@@ -51,27 +51,9 @@ public class TreeElement extends Composite implements SelectionListener, PaintLi
 	}
 
 	public void reinit(){
-//		tree = new TreeNode(10, 10, new TreeNode(10,10,new TreeNode(10,10,new TreeNode(10,10),new TreeNode(10,10))), new TreeNode(10,10,new TreeNode(10,10), new TreeNode(10,10,new TreeNode(10,10))));
-
-		//do {
 		tree = gen.rand();
 		tree.addGap(10,10);
 		doLayout();
-		//}while(!overlap());
-	}
-
-	public boolean overlap(){
-		ArrayList<TreeNode> nodes = new ArrayList<TreeNode>();
-		tree.allNodes(nodes);
-		for(int i = 0 ; i < nodes.size(); i++){
-			for(int j = 0 ; j < i ; j++){
-				if(nodes.get(i).overlapsWith(nodes.get(j))){
-					System.out.printf("Overlap %d %d!!\n",i,j);
-					return true;
-				}
-			}
-		}
-		return false;
 	}
 
 	public void doLayout() {

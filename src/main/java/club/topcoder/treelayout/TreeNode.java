@@ -55,26 +55,6 @@ public final class TreeNode {
 		return res;
 	}
 
-	final static double tolerance = 0.0;
-
-	private boolean overlap(double xStart, double xEnd, double xStart2, double xEnd2){
-		return (xStart2 + tolerance < xEnd - tolerance  && xEnd2 - tolerance > xStart + tolerance) ||
-				 (xStart + tolerance < xEnd2 - tolerance && xEnd - tolerance > xStart2 + tolerance);
-	}
-
-	public boolean overlapsWith(TreeNode other){
-		return overlap(x, x + width, other.x , other.x + other.width)
-				&& overlap(y, y + height, other.y, other.y + other.height);
-
-	}
-
-	public void allNodes(ArrayList<TreeNode> nodes) {
-		nodes.add(this);
-		for(TreeNode node : children){
-			node.allNodes(nodes);
-		}
-	}
-
 	public void addGap(double hgap,double vgap){
 		this.hgap += hgap;
 		this.vgap += vgap;
