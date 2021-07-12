@@ -21,11 +21,6 @@ public class GenerateTrees {
 				             getRandomInRange(minHeight, maxHeight));
 	}
 
-	public int getRandomInRange(int start, int end){
-		double r = rand.nextDouble();
-		return start + (int)Math.rint(r * (end - start));
-	}
-
 	public double getRandomInRange(double start, double end){
 		double r = rand.nextDouble();
 		return Math.rint((start + r * (end - start)) * 2)/2;
