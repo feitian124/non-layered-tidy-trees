@@ -15,8 +15,8 @@ public class Marshall{
 	public void convertBack(Tree converted, TreeNode root) {
 		Tree conv = converted;
 		root.x = conv.x;
-		for(int i = 0 ; i < conv.c.length ; i++){
-			convertBack(conv.c[i], root.children.get(i));
+		for(int i = 0; i < conv.children.length ; i++){
+			convertBack(conv.children[i], root.children.get(i));
 		}
 	}
 
