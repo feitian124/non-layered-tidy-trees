@@ -2,10 +2,7 @@ package club.topcoder.treelayout;
 
 import java.util.Random;
 
-
 public class GenerateTrees {
-
-
 	public TreeNode randomTree(int nr){
 		TreeNode root = randRoot();
 		for(int i = 0 ; i < nr - 1 ; i++){
@@ -22,7 +19,6 @@ public class GenerateTrees {
 	public TreeNode randRoot(){
 		return new TreeNode( getRandomInRange(minWidth, maxWidth),
 				             getRandomInRange(minHeight, maxHeight));
-
 	}
 
 	public int getRandomInRange(int start, int end){
@@ -50,8 +46,4 @@ public class GenerateTrees {
 		this.minHeight = minHeight;
 		this.maxHeight = maxHeight;
 	}
-
-
-
-
 }

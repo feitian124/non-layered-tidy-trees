@@ -6,8 +6,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 
-
-
 public class TestInterface extends Composite{
 
 	TreeElement a, b;
@@ -17,7 +15,6 @@ public class TestInterface extends Composite{
 		a = new TreeElement(this);
 //		b = new BoxesElement(this, boxesB);
 	}
-
 
 	public static void main(String argv[]){
 		final Display display = new Display ();
@@ -33,6 +30,4 @@ public class TestInterface extends Composite{
 		}
 		display.dispose ();
 	}
-
-
 }

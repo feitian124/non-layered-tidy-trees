@@ -1,6 +1,5 @@
 package club.topcoder.treelayout.swt;
 import java.util.ArrayList;
-import java.util.EnumMap;
 import java.util.Random;
 
 import org.eclipse.swt.SWT;
@@ -19,15 +18,10 @@ import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
-
-
 import club.topcoder.treelayout.BoundingBox;
 import club.topcoder.treelayout.GenerateTrees;
 import club.topcoder.treelayout.TreeNode;
 import club.topcoder.treelayout.algorithm.Marshall;
-
-
-
 
 public class TreeElement extends Composite implements SelectionListener, PaintListener, ControlListener , Listener, KeyListener{
 	TreeNode tree ;
@@ -56,7 +50,6 @@ public class TreeElement extends Composite implements SelectionListener, PaintLi
 		reinit();
 	}
 
-
 	public void reinit(){
 //		tree = new TreeNode(10, 10, new TreeNode(10,10,new TreeNode(10,10,new TreeNode(10,10),new TreeNode(10,10))), new TreeNode(10,10,new TreeNode(10,10), new TreeNode(10,10,new TreeNode(10,10))));
 
@@ -66,7 +59,6 @@ public class TreeElement extends Composite implements SelectionListener, PaintLi
 		doLayout();
 		//}while(!overlap());
 	}
-
 
 	public boolean overlap(){
 		ArrayList<TreeNode> nodes = new ArrayList<TreeNode>();
@@ -80,10 +72,7 @@ public class TreeElement extends Composite implements SelectionListener, PaintLi
 			}
 		}
 		return false;
-
 	}
-
-
 
 	public void doLayout() {
 		System.out.printf("Starting layout... \n");
@@ -100,8 +89,6 @@ public class TreeElement extends Composite implements SelectionListener, PaintLi
 		width = b.width;
 		height = b.height;
 	}
-
-
 
 	public void setScrollBars() {
 		Rectangle r = getClientArea();
@@ -128,10 +115,7 @@ public class TreeElement extends Composite implements SelectionListener, PaintLi
 		} else {
 			getVerticalBar().setVisible(false);
 		}
-
 	}
-
-
 
 	static int roundInt(double b){
 		return (int)(b+0.5);
@@ -145,8 +129,6 @@ public class TreeElement extends Composite implements SelectionListener, PaintLi
 
 	public void widgetDefaultSelected(SelectionEvent e) {
 	}
-
-
 
 	void paintTree(TreeNode root, GC gc,Rectangle r){
 		Color c = new Color(gc.getDevice(), new RGB((int)((rand.nextDouble() * 150) ), (int)((rand.nextDouble() * 150)), (int)((rand.nextDouble() * 150) )));
@@ -175,7 +157,6 @@ public class TreeElement extends Composite implements SelectionListener, PaintLi
 		}
 	}
 
-
 	public void paintControl(PaintEvent e) {
 		e.gc.setAdvanced(true);
 		Rectangle r = getClientArea();
@@ -184,7 +165,6 @@ public class TreeElement extends Composite implements SelectionListener, PaintLi
 		e.gc.setForeground(getDisplay().getSystemColor(SWT.COLOR_BLACK));
 		rand = new Random(SEED);
 		paintTree(tree, e.gc, r);
-
 	}
 
 	public void controlMoved(ControlEvent e) {
@@ -193,8 +173,6 @@ public class TreeElement extends Composite implements SelectionListener, PaintLi
 	public void controlResized(ControlEvent e) {
 		setScrollBars();
 	}
-
-
 
 	public void handleEvent(Event event) {
 		Rectangle r = getClientArea();
@@ -232,8 +210,5 @@ public class TreeElement extends Composite implements SelectionListener, PaintLi
 	}
 
 	public void keyReleased(KeyEvent e) {
-
 	}
-
-
 }

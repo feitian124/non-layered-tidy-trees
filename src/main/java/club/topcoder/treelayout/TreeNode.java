@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.Random;
 import java.util.Vector;
 
-
 public final class TreeNode {
 
 	// input
